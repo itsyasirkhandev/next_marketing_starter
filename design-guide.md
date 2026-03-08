@@ -1,6 +1,6 @@
 # shadcn/ui with Tailwind v4 Design System Guidelines
 
-> **Last Updated:** March 2025 | **Tailwind CSS:** v4.1 | **shadcn/ui:** v4 (new-york style)
+> **Last Updated:** March 2026 | **Tailwind CSS:** v4.1 | **shadcn/ui:** v4 (March 2026 Release)
 
 This document outlines design principles and implementation guidelines for applications using shadcn/ui with Tailwind v4. These guidelines ensure consistency, accessibility, and best practices throughout the UI development process.
 
@@ -46,13 +46,14 @@ This document outlines design principles and implementation guidelines for appli
 - **shadcn/ui v4 demo**: Reference the demo site for component examples. [shadcn/ui v4 Demo](mdc:https://v4.shadcn.com/)
 
 ### Tailwind v4.1 New Features (April 2025)
-- **Text shadow utilities**: `text-shadow-*` for text shadows
-- **Mask utilities**: `mask-*` for element masking
+- **Text shadow utilities**: `text-shadow-*` for long-awaited text shadows
+- **Mask utilities**: `mask-*` for versatile element masking
 - **3D transform utilities**: `rotate-x-*`, `rotate-y-*`, `perspective-*`, etc.
-- **`not-*` variant**: Style elements that don't match a selector
+- **New variants**: `not-*`, `noscript`, `user-valid`, `inverted-colors`
 - **`@starting-style` support**: Create enter/exit transitions without JavaScript
 - **Colored drop-shadows**: `drop-shadow-color-*` utilities
-- **Safe alignment**: `justify-safe-center`, `items-safe-center` for overflow handling
+- **Safe alignment**: `justify-safe-center`, `items-safe-center` to keep content visible in tight flex/grid layouts
+- **Fine-grained source control**: `@source inline(...)` to safelist utilities, and `@source not` to ignore heavy directories
 - **Pointer variants**: `pointer-coarse`, `pointer-fine` for touch/pointer detection
 
 ### New CSS Structure
@@ -182,7 +183,10 @@ This document outlines design principles and implementation guidelines for appli
 ### Implementation
 - **Install components individually** using CLI (updated for v4) or manual installation
 - **Component customization**: Modify components directly as needed
-- **Radix UI primitives**: Base components for accessibility and behavior
+- **Unified Radix Package**: `new-york` style now uses a single `radix-ui` dependency (importing `import { Dialog } from "radix-ui"`) instead of individual `@radix-ui/react-*` packages
+- **Radix UI or Base UI primitives**: Choose the underlying primitive library for accessibility and behavior
+  - **Base UI (MUI)**: New default for performance-focused projects (smaller bundle size)
+  - **Radix UI (WorkOS)**: Stable, industry standard
 - **New-York style**: Default and only recommended style for new projects ("default" style is deprecated)
 
 ### New Components (October 2025)
@@ -215,11 +219,14 @@ This document outlines design principles and implementation guidelines for appli
 ## Installation & Setup
 
 ### Project Setup
-- **CLI initialization** (for Tailwind v4 + React 19):
+- **CLI initialization** (using March 2026 CLI v4):
   ```bash
-  npx create-next-app@latest my-app
-  cd my-app
-  pnpm dlx shadcn@latest init
+  npx shadcn@latest init --preset <preset-code>
+  ```
+- **Presets**: Configure your entire design system (colors, theme, icons, fonts, radius) with a single preset code from [shadcn/create](https://create.shadcn.com/)
+- **Coding Agents & shadcn/skills**: Provide agents with the context they need to work with your components
+  ```bash
+  npx skills add shadcn/ui
   ```
 - **Manual setup**: Follow the guide at [Manual Installation](mdc:https://ui.shadcn.com/docs/installation/manual)
 - **components.json configuration**:
@@ -227,6 +234,7 @@ This document outlines design principles and implementation guidelines for appli
   {
     "style": "new-york",
     "rsc": true,
+    "tsx": true,
     "tailwind": {
       "config": "",
       "css": "app/globals.css",
@@ -235,8 +243,13 @@ This document outlines design principles and implementation guidelines for appli
     },
     "aliases": {
       "components": "@/components",
-      "utils": "@/lib/utils"
-    }
+      "utils": "@/lib/utils",
+      "ui": "@/components/ui",
+      "hooks": "@/hooks",
+      "lib": "@/lib"
+    },
+    "iconLibrary": "lucide",
+    "primitive": "base-ui"
   }
   ```
 
@@ -262,6 +275,11 @@ This document outlines design principles and implementation guidelines for appli
 - **Updated dark mode colors** for better accessibility using OKLCH
 - **Consistent contrast ratios** across light and dark themes
 - **Custom variant**: `@custom-variant dark (&:is(.dark *))`
+
+### RTL (Right-to-Left) Support
+- **Automatic Class Conversion**: By setting `"rtl": true` in `components.json`, the CLI automatically handles logical properties.
+- **Physical to Logical**: Classes like `ml-4` or `left-2` become `ms-4` and `start-2`. No need to write RTL-specific classes manually.
+- **Inline Start & End Styles**: Components seamlessly support `data-[side=inline-start]` and `data-[side=inline-end]` natively for logical side placements. Support added extensively to `Tooltip`, `Popover`, etc.
 
 ### Container Queries
 - **Built-in support** without plugins
@@ -309,6 +327,8 @@ This document outlines design principles and implementation guidelines for appli
 - [shadcn/ui GitHub Repository](mdc:https://github.com/shadcn/ui)
 - [Tailwind v4 Upgrade Guide](mdc:https://tailwindcss.com/docs/upgrade-guide)
 - [shadcn/ui v4 Demo](mdc:https://v4.shadcn.com/)
+- [Base UI Documentation](mdc:https://base-ui.com/docs)
+- [shadcn/create](mdc:https://create.shadcn.com/)
 - [Figma Design System](mdc:https://www.figma.com/community/file/1203061493325953101/shadcn-ui-design-system)
 
 ## Changelog Highlights
@@ -330,6 +350,22 @@ This document outlines design principles and implementation guidelines for appli
 
 ### October 2025 - New Components
 - Spinner, Kbd, Empty, Item, Field, Input Group, Button Group
+
+### January 2026 - RTL & Base UI Parity
+- **RTL Support**: First-class support for RTL layouts. CLI automatically converts physical (`ml-4`) classes to logical (`ms-4`) when `rtl: true`.
+- **Inline Start and End**: Components now naturally support logical placements like `data-[side=inline-start]` instead of just positional keywords.
+- **Base UI Documentation**: Full documentation parity between Radix & Base UI.
+
+### February 2026 - Unified Radix UI Package & Blocks
+- **Unified Dependency**: Radix components now import from a single `radix-ui` package instead of multiple `@radix-ui/react-*` libraries via `new-york` style. Available via `npx shadcn@latest migrate radix`.
+- **Blocks for Base UI**: All shadcn blocks now fully support Base UI.
+
+### March 2026 - shadcn/cli v4 Release
+- **`shadcn/skills`**: Integrated context for AI coding agents (`npx skills add shadcn/ui`).
+- **Presets**: Shared configuration codes for instant project scaffolding (`npx shadcn@latest init --preset <code_string>`).
+- **Enhanced CLI Commands**: `shadcn info`, `shadcn docs`, `--dry-run`, `--diff` (to check for updates from the registry).
+- **Template Scaffold**: `shadcn init --template` for Next.js, Vite, Laravel, Astro, TanStack Start etc.
+- **Base UI by Default**: Switched to Base UI as the recommended primitive for new projects.
 
 ## Code Review Checklist
 
