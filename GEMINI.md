@@ -58,7 +58,6 @@ Brutalist, typographic, minimal. The design should feel bold and direct—like a
 
 ### Don'ts
 - No gradients or shadows (except subtle where functional)
-- No rounded corners on primary UI (square/sharp edges)
 - No decorative icons—only functional ones
 - Don't hide information behind hover states
 

@@ -58,6 +58,9 @@ Brutalist, typographic, minimal. The design should feel bold and direct—like a
 
 ### Don'ts
 - No gradients or shadows (except subtle where functional)
-- No rounded corners on primary UI (square/sharp edges)
 - No decorative icons—only functional ones
 - Don't hide information behind hover states
+
+also I am using pnpm as my package manager, so use pnpm instead of npm
+
+I am on windows and I have powershell 5 installed so use the commands that powershell 5 supportss
