@@ -10,7 +10,7 @@ export default function Home() {
           <p className="font-mono text-sm tracking-widest uppercase text-neutral-400 mb-6">
             v0.1.0 // Production Ready
           </p>
-          <h1 className="text-[12vw] leading-[0.85] font-black tracking-tighter mb-12 uppercase">
+          <h1 className="text-[12vw] leading-tight font-black tracking-tighter mb-12 uppercase">
             Next.js <br />
             <span className="text-white">Starter</span>
           </h1>

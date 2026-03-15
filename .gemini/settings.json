@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "AfterTool": [
+      {
+        "matcher": "write_file|replace",
+        "hooks": [
+          {
+            "name": "track-modified-file",
+            "type": "command",
+            "command": "node .gemini/hooks/track-file.js",
+            "description": "Track AI-modified files for later checks"
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "lint-and-typecheck",
+            "type": "command",
+            "command": "node .gemini/hooks/run-checks.js",
+            "description": "Run linting and typechecking on modified files"
+          }
+        ]
+      }
+    ]
+  }
+}
