@@ -24,8 +24,10 @@ process.stdin.on('end', () => {
 
       fs.appendFileSync(trackFile, filePath + '\n', 'utf8');
     }
+    // Successfully tracked, exit 0. stdout is empty (no JSON needed if no changes required).
+    process.exit(0);
   } catch (err) {
-    console.error('Error tracking file:', err);
-    process.exit(1);
+    process.stderr.write(`[Hook: track-file] Error tracking file: ${err.message}\n`);
+    process.exit(1); // Warning status
   }
 });

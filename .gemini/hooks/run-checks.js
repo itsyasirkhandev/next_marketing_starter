@@ -6,14 +6,17 @@ const { execSync } = require('child_process');
 const projectDir = process.env.GEMINI_PROJECT_DIR || process.cwd();
 const trackFile = path.join(projectDir, '.gemini', 'tmp', 'modified_files.txt');
 
+// Helper to log to stderr so it shows up in Gemini CLI
+const log = (msg) => process.stderr.write(`[Hook: run-checks] ${msg}\n`);
+const error = (msg) => process.stderr.write(`[Hook: run-checks] ERROR: ${msg}\n`);
+
 if (!fs.existsSync(trackFile)) {
   process.exit(0);
 }
 
 try {
-  console.log('AI finished modifying files. Running checks...');
+  log('AI finished modifying files. Running checks...');
   const content = fs.readFileSync(trackFile, 'utf8');
-  // Deduplicate and filter empty lines
   const files = [
     ...new Set(
       content
@@ -29,40 +32,42 @@ try {
 
     if (!fs.existsSync(absolutePath)) continue;
 
-    console.log(`Formatting: ${file}`);
+    log(`Formatting: ${file}`);
     try {
       const formatOut = execSync(`pnpm prettier --write "${absolutePath}"`, { cwd: projectDir });
-      console.log(formatOut.toString().trim());
+      if (formatOut.toString().trim()) log(formatOut.toString().trim());
     } catch (e) {
-      console.error(`Prettier failed for ${file}:\n${e.stdout?.toString() || e.message}`);
+      error(`Prettier failed for ${file}:\n${e.stdout?.toString() || e.message}`);
     }
 
     if (['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs'].includes(ext)) {
-      console.log(`Linting: ${file}`);
+      log(`Linting: ${file}`);
       try {
         const lintOut = execSync(`pnpm eslint --fix "${absolutePath}"`, { cwd: projectDir });
-        console.log(lintOut.toString().trim());
+        if (lintOut.toString().trim()) log(lintOut.toString().trim());
       } catch (e) {
-        console.error(`ESLint failed for ${file}:\n${e.stdout?.toString() || e.message}`);
+        error(`ESLint failed for ${file}:\n${e.stdout?.toString() || e.message}`);
       }
     }
   }
 
-  console.log('Running project-wide typecheck...');
+  log('Running project-wide typecheck...');
   try {
     const typecheckOut = execSync(`pnpm typecheck`, { cwd: projectDir });
-    console.log(typecheckOut.toString().trim());
+    if (typecheckOut.toString().trim()) log(typecheckOut.toString().trim());
   } catch (e) {
-    console.error(`Typecheck failed:\n${e.stdout?.toString() || e.message}`);
-    throw e; // Fail the hook if typecheck fails
+    error(`Typecheck failed:\n${e.stdout?.toString() || e.message}`);
+    throw e;
   }
 
   fs.unlinkSync(trackFile);
-  console.log('All checks passed!');
-} catch {
-  console.error('Hooks checks failed.');
+  log('✅ All checks passed!');
+  process.exit(0);
+} catch (err) {
+  error('❌ Hooks checks failed. Blocking further actions.');
   if (fs.existsSync(trackFile)) {
     fs.unlinkSync(trackFile);
   }
-  process.exit(1);
+  // Exit code 2 blocks the agent and shows stderr as the reason
+  process.exit(2);
 }
