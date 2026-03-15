@@ -1,31 +1,11 @@
 import type { Metadata } from 'next';
-import {
-  Geist,
-  Geist_Mono,
-  Inter,
-  Playfair_Display,
-  JetBrains_Mono,
-  Roboto,
-} from 'next/font/google';
+import { Geist, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
-
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-sans' });
-
-const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
+import { Providers } from '@/components/providers';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
-const inter = Inter({
-  variable: '--font-inter',
   subsets: ['latin'],
 });
 
@@ -45,11 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(jetbrainsMono.variable, 'font-sans', roboto.variable)}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfair.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" className={cn(geistSans.variable, 'font-sans')}>
+      <body className={`${geistSans.variable} ${playfair.variable} antialiased`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
