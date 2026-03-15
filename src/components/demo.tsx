@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import * as React from 'react';
 
 import {
   AlertDialog,
@@ -12,12 +12,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import { Card, CardContent } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
+} from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,39 +26,48 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Field, FieldGroup } from "@/components/ui/field"
+} from '@/components/ui/dropdown-menu';
+import { Field, FieldGroup } from '@/components/ui/field';
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "@/components/ui/input-group"
+} from '@/components/ui/input-group';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from "@/components/ui/item"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import { CopyIcon, WarningCircleIcon, TrashIcon, ShareIcon, BagIcon, DotsThreeIcon, SpinnerIcon, PlusIcon, MinusIcon, ArrowLeftIcon, ArrowRightIcon, CheckIcon, CaretDownIcon, CaretRightIcon, MagnifyingGlassIcon, GearIcon, CaretUpIcon } from "@phosphor-icons/react"
+  CopyIcon,
+  WarningCircleIcon,
+  TrashIcon,
+  ShareIcon,
+  BagIcon,
+  DotsThreeIcon,
+  SpinnerIcon,
+  PlusIcon,
+  MinusIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  CaretDownIcon,
+  CaretRightIcon,
+  MagnifyingGlassIcon,
+  GearIcon,
+  CaretUpIcon,
+} from '@phosphor-icons/react';
 
 export function Demo() {
-  const [sliderValue, setSliderValue] = React.useState<number[]>([500])
-  const handleSliderValueChange = React.useCallback(
-    (value: number | readonly number[]) => {
-      if (typeof value === "number") {
-        setSliderValue([value])
-      } else {
-        setSliderValue([...value])
-      }
-    },
-    []
-  )
+  const [sliderValue, setSliderValue] = React.useState<number[]>([500]);
+  const handleSliderValueChange = React.useCallback((value: number | readonly number[]) => {
+    if (typeof value === 'number') {
+      setSliderValue([value]);
+    } else {
+      setSliderValue([...value]);
+    }
+  }, []);
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted p-4 sm:p-6 lg:p-12 dark:bg-background">
@@ -69,34 +78,31 @@ export function Demo() {
               <div className="flex flex-col gap-1">
                 <div className="text-2xl font-medium">Style Overview</div>
                 <div className="line-clamp-2 text-base text-muted-foreground">
-                  Designers love packing quirky glyphs into test phrases. This
-                  is a preview of the typography styles.
+                  Designers love packing quirky glyphs into test phrases. This is a preview of the
+                  typography styles.
                 </div>
               </div>
               <div className="grid grid-cols-6 gap-3">
                 {[
-                  "--background",
-                  "--foreground",
-                  "--primary",
-                  "--secondary",
-                  "--muted",
-                  "--accent",
-                  "--destructive",
-                  "--chart-1",
-                  "--chart-2",
-                  "--chart-3",
-                  "--chart-4",
-                  "--chart-5",
+                  '--background',
+                  '--foreground',
+                  '--primary',
+                  '--secondary',
+                  '--muted',
+                  '--accent',
+                  '--destructive',
+                  '--chart-1',
+                  '--chart-2',
+                  '--chart-3',
+                  '--chart-4',
+                  '--chart-5',
                 ].map((variant) => (
-                  <div
-                    key={variant}
-                    className="flex flex-col flex-wrap items-center gap-2"
-                  >
+                  <div key={variant} className="flex flex-col flex-wrap items-center gap-2">
                     <div
                       className="relative aspect-square w-full rounded-lg bg-(--color) after:absolute after:inset-0 after:rounded-lg after:border after:border-border after:mix-blend-darken dark:after:mix-blend-lighten"
                       style={
                         {
-                          "--color": `var(${variant})`,
+                          '--color': `var(${variant})`,
                         } as React.CSSProperties
                       }
                     />
@@ -112,68 +118,52 @@ export function Demo() {
             <CardContent>
               <div className="grid grid-cols-8 place-items-center gap-4">
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <CopyIcon
-                  />
+                  <CopyIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <WarningCircleIcon
-                  />
+                  <WarningCircleIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <TrashIcon
-                  />
+                  <TrashIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <ShareIcon
-                  />
+                  <ShareIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <BagIcon
-                  />
+                  <BagIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <DotsThreeIcon
-                  />
+                  <DotsThreeIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <SpinnerIcon
-                  />
+                  <SpinnerIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <PlusIcon
-                  />
+                  <PlusIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <MinusIcon
-                  />
+                  <MinusIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <ArrowLeftIcon
-                  />
+                  <ArrowLeftIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <ArrowRightIcon
-                  />
+                  <ArrowRightIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <CheckIcon
-                  />
+                  <CheckIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <CaretDownIcon
-                  />
+                  <CaretDownIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <CaretRightIcon
-                  />
+                  <CaretRightIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <MagnifyingGlassIcon
-                  />
+                  <MagnifyingGlassIcon />
                 </Card>
                 <Card className="flex size-8 items-center justify-center rounded-md p-0 ring ring-border *:[svg]:size-4">
-                  <GearIcon
-                  />
+                  <GearIcon />
                 </Card>
               </div>
             </CardContent>
@@ -218,8 +208,7 @@ export function Demo() {
                     <InputGroupInput placeholder="Name" />
                     <InputGroupAddon align="inline-end">
                       <InputGroupText>
-                        <MagnifyingGlassIcon
-                        />
+                        <MagnifyingGlassIcon />
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -234,10 +223,7 @@ export function Demo() {
                   <Badge variant="secondary">Secondary</Badge>
                   <Badge variant="outline">Outline</Badge>
                 </div>
-                <RadioGroup
-                  defaultValue="apple"
-                  className="ml-auto flex w-fit gap-3"
-                >
+                <RadioGroup defaultValue="apple" className="ml-auto flex w-fit gap-3">
                   <RadioGroupItem value="apple" />
                   <RadioGroupItem value="banana" />
                 </RadioGroup>
@@ -254,12 +240,10 @@ export function Demo() {
                   </AlertDialogTrigger>
                   <AlertDialogContent size="sm">
                     <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Allow accessory to connect?
-                      </AlertDialogTitle>
+                      <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Do you want to allow the USB accessory to connect to
-                        this device and your data?
+                        Do you want to allow the USB accessory to connect to this device and your
+                        data?
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -271,17 +255,10 @@ export function Demo() {
                 <ButtonGroup>
                   <Button variant="outline">Button Group</Button>
                   <DropdownMenu>
-                    <DropdownMenuTrigger
-                      render={<Button variant="outline" size="icon" />}
-                    >
-                      <CaretUpIcon
-                      />
+                    <DropdownMenuTrigger render={<Button variant="outline" size="icon" />}>
+                      <CaretUpIcon />
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      align="end"
-                      side="top"
-                      className="w-40"
-                    >
+                    <DropdownMenuContent align="end" side="top" className="w-40">
                       <DropdownMenuGroup>
                         <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
                         <DropdownMenuItem>Mute Conversation</DropdownMenuItem>
@@ -311,5 +288,5 @@ export function Demo() {
         </div>
       </div>
     </div>
-  )
+  );
 }

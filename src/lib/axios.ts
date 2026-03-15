@@ -2,10 +2,10 @@ import axios, {
   type AxiosError,
   type AxiosRequestConfig,
   type InternalAxiosRequestConfig,
-} from "axios";
+} from 'axios';
 
 // ─── Configuration ──────────────────────────────────────────────────────────
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/api';
 const TIMEOUT = 15_000; // 15 seconds
 
 // ─── Create Axios Instance ──────────────────────────────────────────────────
@@ -13,8 +13,8 @@ export const api = axios.create({
   baseURL: BASE_URL,
   timeout: TIMEOUT,
   headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
   },
 });
 
@@ -49,26 +49,26 @@ api.interceptors.response.use(
       switch (status) {
         case 401:
           // Handle unauthorized – e.g. redirect to login
-          console.error("[Axios] 401 Unauthorized");
+          console.error('[Axios] 401 Unauthorized');
           break;
         case 403:
-          console.error("[Axios] 403 Forbidden");
+          console.error('[Axios] 403 Forbidden');
           break;
         case 404:
-          console.error("[Axios] 404 Not Found");
+          console.error('[Axios] 404 Not Found');
           break;
         case 500:
-          console.error("[Axios] 500 Internal Server Error");
+          console.error('[Axios] 500 Internal Server Error');
           break;
         default:
           console.error(`[Axios] Error ${status}`);
       }
     } else if (error.request) {
       // Request was made but no response received (network error)
-      console.error("[Axios] Network error – no response received");
+      console.error('[Axios] Network error – no response received');
     } else {
       // Something happened in setting up the request
-      console.error("[Axios] Request setup error:", error.message);
+      console.error('[Axios] Request setup error:', error.message);
     }
 
     return Promise.reject(error);

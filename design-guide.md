@@ -7,6 +7,7 @@ This document outlines design principles and implementation guidelines for appli
 ## Core Design Principles
 
 ### 1. Typography System: 4 Sizes, 2 Weights
+
 - **4 Font Sizes Only**:
   - Size 1: Large headings
   - Size 2: Subheadings/Important content
@@ -18,6 +19,7 @@ This document outlines design principles and implementation guidelines for appli
 - **Consistent Hierarchy**: Maintain clear visual hierarchy with limited options
 
 ### 2. 8pt Grid System
+
 - **All spacing values must be divisible by 8 or 4**
 - **Examples**:
   - Instead of 25px padding → Use 24px (divisible by 8)
@@ -25,12 +27,14 @@ This document outlines design principles and implementation guidelines for appli
 - **Consistent Rhythm**: Creates visual harmony throughout the interface
 
 ### 3. 60/30/10 Color Rule
+
 - **60%**: Neutral color (white/light gray)
 - **30%**: Complementary color (dark gray/black)
 - **10%**: Main brand/accent color (e.g., red, blue)
 - **Color Balance**: Prevents visual stress while maintaining hierarchy
 
 ### 4. Clean Visual Structure
+
 - **Logical Grouping**: Related elements should be visually connected
 - **Deliberate Spacing**: Spacing between elements should follow the grid system
 - **Alignment**: Elements should be properly aligned within their containers
@@ -39,6 +43,7 @@ This document outlines design principles and implementation guidelines for appli
 ## Foundation
 
 ### Tailwind v4 Integration
+
 - **Use Tailwind CSS v4.1+ for styling**: Leverage the latest Tailwind features including the new @theme directive, dynamic utility values, and OKLCH colors. [Tailwind CSS v4 Documentation](mdc:https://tailwindcss.com/docs)
 - **Rust-based engine**: v4 uses a native compiled engine for significantly faster builds (up to 10x faster incremental rebuilds)
 - **Modern browsing features**: Tailwind v4 uses bleeding-edge browser features and is designed for modern browsers
@@ -46,6 +51,7 @@ This document outlines design principles and implementation guidelines for appli
 - **shadcn/ui v4 demo**: Reference the demo site for component examples. [shadcn/ui v4 Demo](mdc:https://v4.shadcn.com/)
 
 ### Tailwind v4.1 New Features (April 2025)
+
 - **Text shadow utilities**: `text-shadow-*` for long-awaited text shadows
 - **Mask utilities**: `mask-*` for versatile element masking
 - **3D transform utilities**: `rotate-x-*`, `rotate-y-*`, `perspective-*`, etc.
@@ -57,7 +63,9 @@ This document outlines design principles and implementation guidelines for appli
 - **Pointer variants**: `pointer-coarse`, `pointer-fine` for touch/pointer detection
 
 ### New CSS Structure
+
 - **Replace @layer base with @theme directive**:
+
   ```css
   /* Old approach in v3 */
   @layer base {
@@ -66,13 +74,14 @@ This document outlines design principles and implementation guidelines for appli
       --foreground: 0 0% 3.9%;
     }
   }
-  
+
   /* New approach in v4 */
   @theme {
     --color-background: hsl(var(--background));
     --color-foreground: hsl(var(--foreground));
   }
   ```
+
 - **Tailwind imports**: Use `@import "tailwindcss"` instead of `@tailwind base`
 - **Container queries**: Built-in support without plugins
 - **OKLCH color format**: Updated from HSL for better color perception
@@ -80,6 +89,7 @@ This document outlines design principles and implementation guidelines for appli
 ## Typography System
 
 ### Font Sizes & Weights
+
 - **Strictly limit to 4 distinct sizes**:
   - Size 1: Large headings (largest)
   - Size 2: Subheadings
@@ -94,6 +104,7 @@ This document outlines design principles and implementation guidelines for appli
   - Inconsistent size application
 
 ### Typography Implementation
+
 - **Reference shadcn's typography primitives** for consistent text styling
 - **Use monospace variant** for numerical data when appropriate
 - **data-slot attribute**: Every shadcn/ui primitive now has a data-slot attribute for styling
@@ -102,6 +113,7 @@ This document outlines design principles and implementation guidelines for appli
 ## 8pt Grid System
 
 ### Spacing Guidelines
+
 - **All spacing values MUST be divisible by 8 or 4**:
   - ✅ DO: Use 8, 16, 24, 32, 40, 48, etc.
   - ❌ DON'T: Use 25, 11, 7, 13, etc.
@@ -122,6 +134,7 @@ This document outlines design principles and implementation guidelines for appli
   - Establishes predictable patterns
 
 ### Implementation
+
 - **Tailwind v4 dynamic spacing**: Spacing utilities accept any value without arbitrary syntax
 - **Consistent component spacing**: Group related elements with matching gap values
 - **Check responsive behavior**: Ensure grid system holds at all breakpoints
@@ -129,6 +142,7 @@ This document outlines design principles and implementation guidelines for appli
 ## 60/30/10 Color Rule
 
 ### Color Distribution
+
 - **60%**: neutral color (bg-background)
   - Usually white or light gray in light mode
   - Dark gray or black in dark mode
@@ -145,13 +159,16 @@ This document outlines design principles and implementation guidelines for appli
   - Avoid overusing to prevent visual stress
 
 ### Common Mistakes
+
 - ❌ Overusing accent colors creates visual stress
 - ❌ Not enough contrast between background and text
 - ❌ Too many competing accent colors (stick to one primary accent)
 
 ### Implementation with shadcn/ui
+
 - **Background/foreground convention**: Each component uses the background/foreground pattern
 - **CSS variables in globals.css**:
+
   ```css
   :root {
     --background: oklch(1 0 0);
@@ -160,19 +177,21 @@ This document outlines design principles and implementation guidelines for appli
     --primary-foreground: oklch(0.985 0 0);
     /* Additional variables */
   }
-  
+
   @theme {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     /* Register other variables */
   }
   ```
+
 - **OKLCH color format**: More accessible colors, especially in dark mode
 - **Reserve accent colors** for important elements that need attention
 
 ## Component Architecture
 
 ### shadcn/ui Component Structure
+
 - **2-layered architecture**:
   1. Structure and behavior layer (Radix UI primitives)
   2. Style layer (Tailwind CSS)
@@ -181,6 +200,7 @@ This document outlines design principles and implementation guidelines for appli
 - **forwardRefs removed**: Components no longer use forwardRefs; types have been adjusted accordingly
 
 ### Implementation
+
 - **Install components individually** using CLI (updated for v4) or manual installation
 - **Component customization**: Modify components directly as needed
 - **Unified Radix Package**: `new-york` style now uses a single `radix-ui` dependency (importing `import { Dialog } from "radix-ui"`) instead of individual `@radix-ui/react-*` packages
@@ -190,6 +210,7 @@ This document outlines design principles and implementation guidelines for appli
 - **New-York style**: Default and only recommended style for new projects ("default" style is deprecated)
 
 ### New Components (October 2025)
+
 - **Spinner**: Loading indicator component
 - **Kbd**: Display keyboard shortcuts
 - **Empty**: Empty state component
@@ -199,18 +220,21 @@ This document outlines design principles and implementation guidelines for appli
 - **Button Group**: Group of buttons for actions
 
 ### Deprecations
+
 - **Toast component**: Deprecated in favor of [Sonner](https://sonner.emilkowal.ski/) for toasts
 - **"default" style**: Use "new-york" style for all new projects
 
 ## Visual Hierarchy
 
 ### Design Principles
+
 - **Simplicity over flashiness**: Focus on clarity and usability
 - **Emphasis on what matters**: Highlight important elements
 - **Reduced cognitive load**: Use consistent terminology and patterns
 - **Visual connection**: Connect related UI elements through consistent patterns
 
 ### Implementation
+
 - **Use shadcn/ui Blocks** for common UI patterns
 - **Maintain consistent spacing** between related elements
 - **Align elements properly** within containers
@@ -219,6 +243,7 @@ This document outlines design principles and implementation guidelines for appli
 ## Installation & Setup
 
 ### Project Setup
+
 - **CLI initialization** (using March 2026 CLI v4):
   ```bash
   npx shadcn@latest init --preset <preset-code>
@@ -254,17 +279,20 @@ This document outlines design principles and implementation guidelines for appli
   ```
 
 ### CSS-First Configuration (Tailwind v4)
+
 - **No tailwind.config.js needed**: Configure everything in CSS
 - **Automatic content detection**: No need to specify content paths
 - **@source directive**: Explicitly include/exclude paths if needed
+
   ```css
-  @import "tailwindcss";
-  
+  @import 'tailwindcss';
+
   @source not "../../../node_modules";
   @source inline("bg-*");
   ```
 
 ### Adding Components
+
 - **Use the CLI**: `pnpm dlx shadcn@latest add button`
 - **Install dependencies**: Required for each component
 - **Find components**: [Component Reference](mdc:https://ui.shadcn.com/docs/components)
@@ -272,49 +300,58 @@ This document outlines design principles and implementation guidelines for appli
 ## Advanced Features
 
 ### Dark Mode
+
 - **Updated dark mode colors** for better accessibility using OKLCH
 - **Consistent contrast ratios** across light and dark themes
 - **Custom variant**: `@custom-variant dark (&:is(.dark *))`
 
 ### RTL (Right-to-Left) Support
+
 - **Automatic Class Conversion**: By setting `"rtl": true` in `components.json`, the CLI automatically handles logical properties.
 - **Physical to Logical**: Classes like `ml-4` or `left-2` become `ms-4` and `start-2`. No need to write RTL-specific classes manually.
 - **Inline Start & End Styles**: Components seamlessly support `data-[side=inline-start]` and `data-[side=inline-end]` natively for logical side placements. Support added extensively to `Tooltip`, `Popover`, etc.
 
 ### Container Queries
+
 - **Built-in support** without plugins
 - **Responsive components** that adapt to their container size
-- **@min-* and @max-* variants** for container query ranges
+- **@min-_ and @max-_ variants** for container query ranges
 
 ### Enter/Exit Animations (@starting-style)
+
 - **No JavaScript needed**: Create entry/exit animations purely with CSS
 - **@starting-style support**: Define initial styles for entering elements
 - **Example**:
+
   ```css
   .fade-in {
     transition: opacity 0.3s ease-out;
   }
-  
+
   @starting-style {
     .fade-in {
       opacity: 0;
     }
   }
   ```
+
 - **Tailwind variant**: `starting:opacity-0` for entry animations
 
 ### Data Visualization
+
 - **Chart components**: Use with consistent styling
 - **Consistent color patterns**: Use chart-1 through chart-5 variables
 
 ## Experience Design
 
 ### Motion & Animation
+
 - **Consider transitions** between screens and states
 - **Animation purpose**: Enhance usability, not distract
 - **Consistent motion patterns**: Similar elements should move similarly
 
 ### Implementation
+
 - **Test experiences** across the entire flow
 - **Design with animation in mind** from the beginning
 - **Balance speed and smoothness** for optimal user experience
@@ -334,6 +371,7 @@ This document outlines design principles and implementation guidelines for appli
 ## Changelog Highlights
 
 ### February 2025 - Tailwind v4 Release
+
 - HSL colors converted to OKLCH
 - "default" style deprecated, "new-york" is now default
 - Buttons use default cursor
@@ -342,6 +380,7 @@ This document outlines design principles and implementation guidelines for appli
 - data-slot attribute on all primitives
 
 ### April 2025 - Tailwind v4.1
+
 - Text shadow and mask utilities
 - 3D transform utilities
 - `not-*` variant
@@ -349,18 +388,22 @@ This document outlines design principles and implementation guidelines for appli
 - Safe alignment utilities
 
 ### October 2025 - New Components
+
 - Spinner, Kbd, Empty, Item, Field, Input Group, Button Group
 
 ### January 2026 - RTL & Base UI Parity
+
 - **RTL Support**: First-class support for RTL layouts. CLI automatically converts physical (`ml-4`) classes to logical (`ms-4`) when `rtl: true`.
 - **Inline Start and End**: Components now naturally support logical placements like `data-[side=inline-start]` instead of just positional keywords.
 - **Base UI Documentation**: Full documentation parity between Radix & Base UI.
 
 ### February 2026 - Unified Radix UI Package & Blocks
+
 - **Unified Dependency**: Radix components now import from a single `radix-ui` package instead of multiple `@radix-ui/react-*` libraries via `new-york` style. Available via `npx shadcn@latest migrate radix`.
 - **Blocks for Base UI**: All shadcn blocks now fully support Base UI.
 
 ### March 2026 - shadcn/cli v4 Release
+
 - **`shadcn/skills`**: Integrated context for AI coding agents (`npx skills add shadcn/ui`).
 - **Presets**: Shared configuration codes for instant project scaffolding (`npx shadcn@latest init --preset <code_string>`).
 - **Enhanced CLI Commands**: `shadcn info`, `shadcn docs`, `--dry-run`, `--diff` (to check for updates from the registry).
@@ -370,12 +413,14 @@ This document outlines design principles and implementation guidelines for appli
 ## Code Review Checklist
 
 ### Core Design Principles
+
 - [ ] Typography: Uses only 4 font sizes and 2 font weights (Semibold, Regular)
 - [ ] Spacing: All spacing values are divisible by 8 or 4
 - [ ] Colors: Follows 60/30/10 color distribution (60% neutral, 30% complementary, 10% accent)
 - [ ] Structure: Elements are logically grouped with consistent spacing
 
 ### Technical Implementation
+
 - [ ] Uses proper OKLCH color variables
 - [ ] Leverages @theme directive for variables
 - [ ] Components implement data-slot attribute properly
@@ -387,6 +432,7 @@ This document outlines design principles and implementation guidelines for appli
 - [ ] Uses new-york style (not deprecated default style)
 
 ### Common Issues to Flag
+
 - [ ] Too many font sizes (more than 4)
 - [ ] Inconsistent spacing values (not divisible by 8 or 4)
 - [ ] Overuse of accent colors (exceeding 10%)

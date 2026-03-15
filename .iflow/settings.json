@@ -1,6 +1,5 @@
 {
-    "fileFiltering": {
-      "respectGitIgnore": false
-    }
+  "fileFiltering": {
+    "respectGitIgnore": false
   }
-  
+}
