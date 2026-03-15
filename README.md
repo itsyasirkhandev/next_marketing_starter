@@ -1,230 +1,105 @@
-# Next.js Landing Page Template
+# NEXT.JS STARTER
 
-A production-ready Next.js template optimized for building beautiful marketing pages and landing sites. Features a scalable hybrid folder structure, modern animations, form handling, and SEO optimization.
+A high-performance, unapologetically bold starter template built for speed. It eliminates boilerplate fatigue and embraces a strong, poster-like design philosophy. Pre-configured with the essentials to build fast, modern web applications, marketing pages, and complex UIs.
 
-## Tech Stack
+[**View the Demo Repository**](https://github.com/itsyasirkhandev/next_marketing_starter)
+
+## THE PHILOSOPHY
+
+1. **Performance Above All Else**: Fast to load, fast to interact with. Designed to avoid waterfalls and provide optimistic updates by default.
+2. **Bold & Direct Design**: Think posters, not dashboards. Massive headlines, high contrast, stark typography, and obvious interactions. Whitespace and scale do the heavy lifting.
+3. **Good Defaults**: Less configuration, more building. Things behave correctly out of the box.
+4. **Convenience**: Simple, zero-friction UX. Minimal blocking states.
+
+## THE STACK
 
 - **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
-- **Language:** [TypeScript](https://www.typescriptlang.org/)
-- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
-- **Animations:** [GSAP](https://greensock.com/gsap/) + @gsap/react
-- **Forms:** [React Hook Form](https://react-hook-form.com/) + Zod validation
-- **Icons:** [Lucide React](https://lucide.dev/)
-- **SEO:** [next-seo](https://github.com/garmeeh/next-seo)
-- **Package Manager:** [pnpm](https://pnpm.io/)
+- **UI & Components:** [React 19](https://react.dev/) (Server Components)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Data Fetching:** [TanStack Query v5](https://tanstack.com/query/latest)
+- **Accessible UI Primitives:** [shadcn/ui](https://ui.shadcn.com/)
+- **Forms:** [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- **Animations:** [GSAP](https://greensock.com/gsap/) + `@gsap/react`
+- **Icons:** Phosphor Icons & Lucide React
+- **Package Manager:** `pnpm`
 
-## Features
-
-- ⚡ **Next.js App Router** - Modern routing with layouts and streaming
-- 🎨 **Tailwind CSS** - Utility-first styling
-- 🏗️ **Hybrid Folder Structure** - Scalable architecture with feature-based modules
-- 🎬 **GSAP Animations** - Professional-grade animations for landing pages
-- 📝 **React Hook Form** - Performant forms with Zod schema validation
-- 🔍 **SEO Optimized** - Meta tags, Open Graph, and structured data
-- 🌙 **Dark Mode Ready** - Easy theme integration
-- 📦 **Barrel Exports** - Clean imports with index.ts files
-
-## Getting Started
+## GETTING STARTED
 
 ### Prerequisites
 
-- Node.js 18+
-- pnpm (recommended)
+- Node.js 20+
+- `pnpm` installed globally
+
+### Installation & Run
 
 ```bash
-# Install pnpm if you haven't
-npm install -g pnpm
-```
+# 1. Clone the repository
+git clone https://github.com/itsyasirkhandev/next_marketing_starter.git
 
-### Installation
+# 2. Navigate into the directory
+cd next_marketing_starter
 
-```bash
-# Clone the repository
-git clone <your-repo-url>
-
-# Navigate to project
-cd nextjs_starter_tanstack_query
-
-# Install dependencies
+# 3. Install dependencies
 pnpm install
 
-# Start development server
+# 4. Start the development server
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) to see the bold, high-contrast homepage in action.
 
-## Project Structure
+## PROJECT ARCHITECTURE
+
+Designed for scalability using a hybrid feature-based module system alongside standard Next.js routing.
 
 ```
 src/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Home page
-│   └── globals.css         # Global styles
-│
+├── app/                    # Next.js App Router (pages, layouts, globals.css)
 ├── components/             # Shared UI components
-│   ├── ui/                 # UI primitives (buttons, inputs, etc.)
-│   └── index.ts            # Barrel export
-│
-├── features/               # Feature-based modules
-│   └── [feature]/          # Individual feature
-│       ├── components/     # Feature-specific components
-│       ├── hooks/          # Feature-specific hooks
-│       ├── services/       # Feature-specific API calls
-│       ├── schemas/        # Feature-specific Zod schemas
-│       ├── types/          # Feature-specific types
-│       ├── utils/          # Feature-specific utilities
-│       └── index.ts        # Feature public API
-│
-├── hooks/                  # Shared custom hooks
-├── lib/                    # Third-party configurations
-├── services/               # Shared API services
-├── stores/                 # Global state management
-├── types/                  # Shared TypeScript types
-│   ├── api.ts              # API response types
+│   ├── ui/                 # Core unstyled/accessible primitives (shadcn/ui, etc.)
 │   └── index.ts
-└── utils/                  # Utility functions
+├── features/               # Feature-based domain logic
+│   └── [feature_name]/     # Isolated module (e.g., 'auth', 'dashboard')
+│       ├── components/
+│       ├── hooks/
+│       ├── services/
+│       └── types/
+├── hooks/                  # Global custom hooks
+├── lib/                    # Third-party instance setups (axios, etc.)
+├── services/               # Global API services
+├── stores/                 # Global state stores
+├── types/                  # Global TypeScript types
+└── utils/                  # Global helper functions
 ```
 
-## Usage Examples
+## KEY FEATURES IN ACTION
 
-### GSAP Animations
+### Bold Styling (Tailwind v4)
 
-```tsx
-'use client';
+Embrace harsh contrasts, monolithic sizing (`text-[12vw]`), and stark monochrome palettes. The starter avoids subtle gradients and rounded edges in favor of direct, brutalist aesthetics.
 
-import { useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+### Optimized Data Fetching (TanStack Query)
 
-export function Hero() {
-  const container = useRef(null);
+Pre-configured for optimistic updates to make interactions feel instant. Combine Server Components for initial load and TanStack Query on the client for highly interactive experiences.
 
-  useGSAP(() => {
-    gsap.from('.hero-title', {
-      opacity: 0,
-      y: 100,
-      duration: 1,
-      ease: 'power4.out'
-    });
-  }, { scope: container });
+### High-Performance Animations (GSAP)
 
-  return (
-    <section ref={container}>
-      <h1 className="hero-title">Welcome</h1>
-    </section>
-  );
-}
-```
+Drop in `@gsap/react` hooks for unconstrained, timeline-based sequencing that CSS transitions can't easily match.
 
-### Form with Zod Validation
+### Type-Safe Forms
 
-```tsx
-'use client';
+Forms are wired up out of the box using Zod for robust schema definitions and React Hook Form to keep renders snappy without pulling in massive external dependencies.
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-
-const contactSchema = z.object({
-  email: z.string().email('Invalid email'),
-  message: z.string().min(10, 'Message too short'),
-});
-
-type ContactForm = z.infer<typeof contactSchema>;
-
-export function ContactForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm<ContactForm>({
-    resolver: zodResolver(contactSchema),
-  });
-
-  const onSubmit = (data: ContactForm) => {
-    console.log(data);
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register('email')} placeholder="Email" />
-      {errors.email && <span>{errors.email.message}</span>}
-      
-      <textarea {...register('message')} placeholder="Message" />
-      {errors.message && <span>{errors.message.message}</span>}
-      
-      <button type="submit">Send</button>
-    </form>
-  );
-}
-```
-
-### SEO Configuration
-
-```tsx
-import { NextSeo } from 'next-seo';
-
-export default function Page() {
-  return (
-    <>
-      <NextSeo
-        title="My Landing Page | Brand"
-        description="Build beautiful landing pages with this template"
-        openGraph={{
-          type: 'website',
-          url: 'https://example.com',
-          title: 'My Landing Page',
-          description: 'Build beautiful landing pages',
-          images: [{ url: 'https://example.com/og.png' }],
-        }}
-      />
-      {/* Page content */}
-    </>
-  );
-}
-```
-
-### Lucide Icons
-
-```tsx
-import { ArrowRight, Check, Mail, Menu } from 'lucide-react';
-
-<Button>
-  Get Started <ArrowRight className="w-4 h-4 ml-2" />
-</Button>
-```
-
-## Scripts
+## SCRIPTS
 
 ```bash
-pnpm dev          # Start development server
-pnpm build        # Build for production
+pnpm dev          # Start local development server
+pnpm build        # Compile Next.js build for production
 pnpm start        # Start production server
-pnpm lint         # Run ESLint
+pnpm lint         # Run ESLint validation
+pnpm typecheck    # Run TypeScript compiler checks
 ```
 
-## Recommended Additions
-
-For a complete marketing site, consider adding:
-
-- `next-themes` - Dark mode support
-- `embla-carousel-react` - Testimonials carousel
-- `clsx` + `tailwind-merge` - Utility class merging
-- `@vercel/analytics` - Analytics integration
-- `resend` - Transactional emails
-
-## Deployment
-
-Deploy easily on [Vercel](https://vercel.com):
-
-```bash
-vercel
-```
-
-Or use the Vercel GitHub integration for automatic deployments.
-
-## License
+## LICENSE
 
 MIT
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
