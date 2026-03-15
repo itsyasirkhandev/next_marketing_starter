@@ -21,7 +21,8 @@
             "name": "lint-and-typecheck",
             "type": "command",
             "command": "node .gemini/hooks/run-checks.js",
-            "description": "Run linting and typechecking on modified files"
+            "description": "Run linting and typechecking on modified files",
+            "timeout": 300000
           }
         ]
       }

@@ -26,28 +26,57 @@ try {
     ),
   ];
 
+  const validFiles = [];
+  const lintableFiles = [];
+
   for (const file of files) {
-    const ext = path.extname(file);
     const absolutePath = path.resolve(projectDir, file);
+    const relativePath = path.relative(projectDir, absolutePath);
+    const ext = path.extname(absolutePath);
 
-    if (!fs.existsSync(absolutePath)) continue;
-
-    log(`Formatting: ${file}`);
-    try {
-      const formatOut = execSync(`pnpm prettier --write "${absolutePath}"`, { cwd: projectDir });
-      if (formatOut.toString().trim()) log(formatOut.toString().trim());
-    } catch (e) {
-      error(`Prettier failed for ${file}:\n${e.stdout?.toString() || e.message}`);
+    // Skip files outside the project directory
+    if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+      continue;
     }
 
+    // Skip .gemini and .next directories
+    if (relativePath.startsWith('.gemini') || relativePath.startsWith('.next')) {
+      continue;
+    }
+
+    if (!fs.existsSync(absolutePath)) {
+      continue;
+    }
+
+    validFiles.push(absolutePath);
     if (['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs'].includes(ext)) {
-      log(`Linting: ${file}`);
-      try {
-        const lintOut = execSync(`pnpm eslint --fix "${absolutePath}"`, { cwd: projectDir });
-        if (lintOut.toString().trim()) log(lintOut.toString().trim());
-      } catch (e) {
-        error(`ESLint failed for ${file}:\n${e.stdout?.toString() || e.message}`);
-      }
+      lintableFiles.push(absolutePath);
+    }
+  }
+
+  if (validFiles.length > 0) {
+    log(`Formatting ${validFiles.length} file(s)...`);
+    try {
+      const formatOut = execSync(
+        `pnpm prettier --write ${validFiles.map((f) => `"${f}"`).join(' ')}`,
+        { cwd: projectDir },
+      );
+      if (formatOut.toString().trim()) log(formatOut.toString().trim());
+    } catch (e) {
+      error(`Prettier failed:\n${e.stdout?.toString() || e.message}`);
+    }
+  }
+
+  if (lintableFiles.length > 0) {
+    log(`Linting ${lintableFiles.length} file(s)...`);
+    try {
+      const lintOut = execSync(
+        `pnpm eslint --fix ${lintableFiles.map((f) => `"${f}"`).join(' ')}`,
+        { cwd: projectDir },
+      );
+      if (lintOut.toString().trim()) log(lintOut.toString().trim());
+    } catch (e) {
+      error(`ESLint failed:\n${e.stdout?.toString() || e.message}`);
     }
   }
 
