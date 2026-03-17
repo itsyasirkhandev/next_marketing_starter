@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -11,6 +13,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
+        // Combine button variant classes with additional utility classes for styling the link as a large, bold, uppercase button.
         className={cn(buttonVariants({ size: 'lg' }), 'uppercase font-bold tracking-widest')}
       >
         Back to Home

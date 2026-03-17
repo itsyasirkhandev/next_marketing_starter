@@ -23,7 +23,7 @@ class ApiError extends Error {
 }
 
 export async function apiFetch<T>(endpoint: string, options: FetchOptions = {}): Promise<T> {
-  const url = `${BASE_URL}${endpoint}`;
+  const url = endpoint.startsWith('http') ? endpoint : `${BASE_URL}${endpoint}`;
 
   const defaultHeaders: HeadersInit = {
     'Content-Type': 'application/json',
