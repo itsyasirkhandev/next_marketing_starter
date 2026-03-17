@@ -1,7 +1,7 @@
 {
   "general": {
     "plan": {
-      "directory": "plans"
+      "directory": ".gemini/plans"
     }
   },
   "hooks": {
@@ -13,7 +13,7 @@
             "name": "track-modified-file",
             "type": "command",
             "command": "node .gemini/hooks/track-file.js",
-            "description": "Track AI-modified files for later checks"
+            "description": "Track AI-modified files"
           }
         ]
       }
@@ -26,7 +26,7 @@
             "name": "lint-and-typecheck",
             "type": "command",
             "command": "node .gemini/hooks/run-checks.js",
-            "description": "Run linting and typechecking on modified files",
+            "description": "Run linting and typechecking",
             "timeout": 300000
           }
         ]
