@@ -1,15 +1,17 @@
+import { env } from '@/env';
+
 /**
  * A native fetch wrapper optimized for Next.js caching.
- *
- * Replaces Axios to utilize Next.js App Router Data Cache.
- * By using native fetch, we also rely on httpOnly cookies automatically sent
- * by the browser to our API for secure session hydration, resolving the XSS
- * vulnerabilities with localStorage.
  */
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/api';
+const BASE_URL = env.NEXT_PUBLIC_API_URL;
 
-type FetchOptions = RequestInit;
+type FetchOptions = RequestInit & {
+  next?: {
+    revalidate?: number | false;
+    tags?: string[];
+  };
+};
 
 class ApiError extends Error {
   status: number;
